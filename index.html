@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Шпаргалка дизайнера: сервисы, живые анимации с промптами для Claude, чеклисты и полезные промпты.">
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+<title>Poliakova Design Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#F7F4EF;          /* тёплый молочный */
+  --paper:#FFFFFF;
+  --ink:#111111;
+  --muted:#5E5955;
+  --line:#111111;
+  --hair:#E6E0D8;
+  --tomato:#EE4D9B;      /* фирменный розовый */
+  --blue:#8A1846;        /* ягодный */
+  --lime:#FFC6DF;        /* пудровый */
+  --pink:#F58DBE;
+  --sun:#FFE6F1;
+  --soft:#F9E3EE;
+  --radius:24px;
+  --display:'Inter Tight', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --body:'Inter Tight', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1180px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);line-height:.95;text-wrap:balance;margin:0;letter-spacing:-.035em}
+.eyebrow,.tag{font-family:var(--body);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--tomato)}
+.topbar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--tomato);z-index:40}
+
+/* ---------- NAV ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;padding-block:14px}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:1px solid var(--hair);border-radius:999px;background:rgba(247,244,239,.9);backdrop-filter:blur(10px);padding:8px 8px 8px 24px;box-shadow:0 8px 30px rgba(17,17,17,.07)}
+.logo{font-weight:700;font-size:16px;text-decoration:none;display:flex;align-items:center;gap:6px}
+.logo i{font-style:normal;color:var(--tomato);font-size:18px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.tabs a{font-weight:600;font-size:15px;text-decoration:none;padding:9px 14px;border-radius:999px;transition:color .2s}
+.tabs a:hover,.tabs a.on{color:var(--tomato)}
+.tabs a.cta{background:var(--ink);color:#fff;padding:11px 22px;margin-left:6px}
+.tabs a.cta:hover{background:var(--tomato);color:#fff}
+
+/* ---------- HERO ---------- */
+.hero{padding-block:72px 40px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero p.lead{margin-inline:auto!important}
+.hero-stats{justify-content:center}
+.photo{position:relative;background:linear-gradient(160deg,#F28CBB,#E8579A);border-radius:40px;aspect-ratio:1/1;max-width:100%;display:grid;place-items:center;overflow:hidden}
+.frame{width:62%;background:#fff;padding:14px 14px 0;box-shadow:0 20px 40px rgba(120,20,70,.25);transform:rotate(-2deg)}
+.frame .pic{aspect-ratio:1/1.05;background:var(--tomato);display:grid;place-items:center;text-align:center;color:#fff;font-weight:900;font-size:clamp(20px,3vw,34px);line-height:1;letter-spacing:-.02em;text-transform:uppercase;padding:10px}
+.frame .cap{padding:14px 4px 18px;text-align:center;color:var(--blue);font-weight:900;font-size:clamp(14px,1.8vw,22px);text-transform:uppercase;line-height:1}
+.frame .cap small{display:block;font-weight:500;text-transform:none;font-size:13px;margin-top:6px}
+.badge{position:absolute;right:4%;bottom:4%;width:26%;aspect-ratio:1;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;font-weight:800;font-size:clamp(12px,1.5vw,18px);line-height:1.1;transform:rotate(8deg);text-transform:uppercase}
+.hero h1{font-size:clamp(44px,11vw,140px);line-height:1;font-weight:900;text-transform:uppercase;letter-spacing:-.06em;margin-top:18px}
+.hero h1 span{display:block;color:var(--tomato)}
+.pill-pink{display:inline-block;background:var(--tomato);color:var(--ink);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:15px;padding:12px 20px;border-radius:999px;margin-top:24px}
+.hero p.lead{font-size:19px;max-width:56ch;margin:28px 0 0;color:var(--muted);line-height:1.7}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.stat{border:1.5px solid var(--ink);border-radius:999px;padding:11px 18px;font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
+
+/* ---------- SECTIONS ---------- */
+section.block{padding-block:48px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.sec-head h2{font-size:clamp(40px,6vw,76px);font-weight:900;text-transform:uppercase;letter-spacing:-.05em}
+.sec-head h2 em{font-style:normal;color:var(--tomato)}
+.sec-head p{max-width:50ch;margin:12px 0 0;color:var(--muted);font-size:17px}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{font:inherit;font-weight:700;font-size:13px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--hair);background:transparent;color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s}
+.chip:hover{background:var(--soft)}
+.chip[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:var(--ink)}
+.search{font:inherit;font-size:15px;border:1px solid var(--hair);border-radius:999px;padding:11px 18px;background:var(--paper);color:var(--ink);width:min(340px,100%)}
+
+/* ---------- RESOURCES ---------- */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.res{display:flex;flex-direction:column;gap:6px;text-decoration:none;background:var(--paper);border:1px solid var(--hair);border-radius:22px;padding:18px;transition:transform .2s, box-shadow .2s, border-color .2s}
+.res:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(238,77,155,.18);border-color:var(--tomato)}
+.res .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.res strong{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.res span.d{font-size:14px;color:var(--muted);line-height:1.5}
+.res .arr{font-size:14px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--bg);transition:.2s}
+.res:hover .arr{background:var(--tomato);color:#fff;transform:rotate(45deg)}
+.res-group{margin-bottom:32px}
+.res-group h3{font-size:14px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.empty{padding:24px;border:1.5px dashed var(--muted);border-radius:var(--radius);color:var(--muted)}
+
+/* ---------- ANIMATIONS ---------- */
+.anim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--paper);border:1px solid var(--hair);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s}
+.card:hover{box-shadow:0 16px 36px rgba(17,17,17,.08)}
+.stage{position:relative;height:200px;display:grid;place-items:center;overflow:hidden;background:var(--soft);margin:8px;border-radius:22px}
+.card-body{padding:10px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-body h3{font-size:20px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.card-body p{margin:0;font-size:14px;color:var(--muted)}
+.prompt{font-family:var(--mono);font-size:12.5px;line-height:1.55;background:var(--bg);border-radius:14px;padding:12px 14px;white-space:pre-wrap;max-height:130px;overflow:auto}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.btn{font:inherit;font-weight:700;font-size:13px;letter-spacing:.03em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:999px;padding:10px 18px;background:transparent;color:var(--ink);cursor:pointer;transition:.15s}
+.btn.pri{background:var(--ink);color:#fff}
+.btn:hover{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.replay{position:absolute;top:12px;right:12px;z-index:3;font:inherit;font-size:12px;font-weight:700;border:0;background:var(--paper);border-radius:999px;padding:6px 12px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.hint{position:absolute;left:12px;top:12px;z-index:3;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;border-radius:999px;padding:4px 10px}
+
+/* ---------- CHECKLISTS ---------- */
+.cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;align-items:start}
+.cl{background:var(--paper);border:1px solid var(--hair);border-radius:28px;padding:24px}
+.cl-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:12px}
+.cl-head h3{font-size:22px;font-weight:800;line-height:1.1}
+.meter{height:8px;border-radius:999px;overflow:hidden;margin:8px 0 14px;background:var(--soft)}
+.meter i{display:block;height:100%;width:0;background:var(--tomato);transition:width .35s}
+.count{font-weight:800;font-size:15px;white-space:nowrap;color:var(--tomato)}
+.item{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--hair);cursor:pointer}
+.item input{appearance:none;flex:none;width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;margin:1px 0 0;display:grid;place-items:center;cursor:pointer;background:var(--paper)}
+.item input:checked{background:var(--tomato);border-color:var(--tomato)}
+.item input:checked::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.item .t{font-weight:600}
+.item .s{display:block;font-size:13px;color:var(--muted);font-weight:400}
+.item input:checked + span .t{text-decoration:line-through;color:var(--muted)}
+.lvl{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.lvl.c{background:var(--ink);color:#fff}
+.lvl.i{background:var(--tomato);color:var(--ink)}
+.lvl.n{background:var(--soft)}
+.big-prompt{max-height:none}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));translate:-50% 20px;background:var(--ink);color:#fff;font-weight:700;padding:12px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+.toast.show{opacity:1;translate:-50% 0}
+footer{padding-block:32px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px;border-top:1px solid var(--hair);margin-top:24px}
+
+@media (max-width:860px){
+  .hero{padding-block:36px 16px}
+  .tabs a:not(.cta){padding:8px 10px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+.d-title{font-family:var(--display);font-weight:900;letter-spacing:-.04em}
+/* ================= DEMOS ================= */
+.d-title{font-family:var(--display);font-weight:900;font-size:30px;text-align:center;line-height:1.05}
+/* text */
+.fx-fadeup{animation:fadeUp .8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.fx-split span{display:inline-block;animation:charIn .6s cubic-bezier(.2,.8,.2,1.2) both}
+@keyframes charIn{from{opacity:0;transform:translateY(40px) rotate(12deg)}to{opacity:1;transform:none}}
+.fx-grad{background:linear-gradient(90deg,var(--tomato),var(--pink),var(--blue),var(--tomato));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradMove 4s linear infinite}
+@keyframes gradMove{to{background-position:300% 0}}
+.fx-blur{animation:blurIn 1.1s ease both}
+@keyframes blurIn{from{opacity:0;filter:blur(14px);letter-spacing:.3em}to{opacity:1;filter:blur(0);letter-spacing:0}}
+.fx-clip{animation:clipIn 1s cubic-bezier(.7,0,.2,1) both;background:var(--sun);padding:4px 12px;border:2px solid var(--line);border-radius:10px}
+@keyframes clipIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.fx-type{font-family:var(--mono);font-size:22px;font-weight:600}
+.fx-type .cur{display:inline-block;width:3px;height:1.1em;background:var(--tomato);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.fx-rot{font-family:var(--display);font-weight:700;font-size:24px;display:flex;gap:10px;align-items:center}
+.fx-rot .win{display:inline-block;height:1.3em;overflow:hidden;vertical-align:bottom;background:var(--lime);border:2px solid var(--line);border-radius:10px;padding:0 10px}
+.fx-rot .list{display:flex;flex-direction:column;transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.fx-rot .list span{height:1.3em;line-height:1.3em}
+.fx-count{font-family:var(--display);font-weight:900;font-size:64px;font-variant-numeric:tabular-nums}
+.fx-count small{font-size:20px;display:block;text-align:center;font-family:var(--body);font-weight:600;color:var(--muted)}
+/* scroll */
+.scroller{position:absolute;inset:0;overflow-y:auto;scroll-behavior:smooth}
+.scroller .pad{height:120px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.rv{margin:14px 22px;padding:14px;border:2px solid var(--line);border-radius:14px;background:var(--paper);font-weight:700;opacity:0;transform:translateY(30px) scale(.96);transition:.6s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv:nth-child(odd){background:var(--pink)}
+.prog{position:sticky;top:0;height:6px;background:var(--tomato);width:0;z-index:2}
+.fake-text{padding:14px 22px;display:flex;flex-direction:column;gap:8px}
+.fake-text i{display:block;height:10px;border-radius:5px;background:#CFC4FF}
+.fake-text i:nth-child(3n){width:70%}
+.par-wrap{position:relative;height:520px}
+.par{position:sticky;top:0;height:186px;overflow:hidden}
+.par .l{position:absolute;left:0;right:0;will-change:transform}
+.marq{width:100%;overflow:hidden;border-block:2px solid var(--line);background:var(--sun);padding:10px 0}
+.marq .tr{display:flex;width:max-content;animation:marq 9s linear infinite}
+.marq:hover .tr{animation-play-state:paused}
+.marq span{font-family:var(--display);font-weight:900;font-size:22px;padding:0 14px;white-space:nowrap}
+@keyframes marq{to{transform:translateX(-50%)}}
+.stack-wrap{padding:14px 22px 60px}
+.stack-card{position:sticky;height:110px;border:2px solid var(--line);border-radius:16px;margin-bottom:40px;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px}
+/* hover */
+.magnet{font-family:var(--display);font-weight:700;background:var(--tomato);color:#fff;border:2px solid var(--line);border-radius:999px;padding:16px 28px;font-size:16px;transition:transform .25s cubic-bezier(.2,.8,.2,1.2);cursor:pointer}
+.tilt{width:170px;height:120px;border:2px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--blue),var(--pink));color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;transition:transform .15s;transform-style:preserve-3d;box-shadow:6px 6px 0 var(--ink)}
+.ulink{font-family:var(--display);font-weight:700;font-size:24px;text-decoration:none;background:linear-gradient(var(--tomato),var(--tomato)) 0 100%/0 4px no-repeat;transition:background-size .4s cubic-bezier(.7,0,.2,1);padding-bottom:4px}
+.ulink:hover{background-size:100% 4px}
+.fillbtn{position:relative;overflow:hidden;font-family:var(--display);font-weight:700;font-size:15px;border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:14px 26px;cursor:pointer;z-index:0;color:var(--ink)}
+.fillbtn::before{content:"";position:absolute;inset:0;background:var(--blue);transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.7,0,.2,1);z-index:-1}
+.fillbtn:hover{color:#fff}
+.fillbtn:hover::before{transform:scaleX(1);transform-origin:left}
+.spot{position:absolute;inset:0;background:var(--ink);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:700;font-size:20px}
+.spot::before{content:"";position:absolute;inset:0;background:radial-gradient(160px circle at var(--mx,50%) var(--my,50%),rgba(198,244,50,.55),transparent 70%)}
+.spot span{position:relative}
+.zoom{width:200px;height:130px;border:2px solid var(--line);border-radius:16px;overflow:hidden}
+.zoom div{width:100%;height:100%;background:conic-gradient(from 30deg at 30% 60%,var(--sun),var(--tomato),var(--pink),var(--blue),var(--lime),var(--sun));transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.zoom:hover div{transform:scale(1.25) rotate(4deg)}
+/* ui */
+.acc{width:min(260px,86%);border:2px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
+.acc button{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;padding:12px 14px;font-weight:700;cursor:pointer}
+.acc .pl{transition:transform .3s}
+.acc.open .pl{transform:rotate(45deg)}
+.acc .pn{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.acc.open .pn{grid-template-rows:1fr}
+.acc .pn>div{overflow:hidden;padding:0 14px;font-size:14px;color:var(--muted)}
+.acc.open .pn>div{padding-bottom:12px}
+.sw{width:84px;height:44px;border-radius:999px;border:2px solid var(--line);background:var(--paper);position:relative;cursor:pointer;transition:background .3s}
+.sw::after{content:"";position:absolute;top:4px;left:4px;width:32px;height:32px;border-radius:50%;background:var(--ink);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.sw.on{background:var(--lime)}
+.sw.on::after{transform:translateX(40px)}
+.tst{position:absolute;right:14px;bottom:14px;background:var(--ink);color:#fff;border-radius:12px;padding:10px 14px;font-weight:700;font-size:14px;animation:tstIn .5s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes tstIn{from{opacity:0;transform:translateY(30px) scale(.9)}}
+.skel{width:min(250px,86%);display:flex;gap:12px;align-items:center}
+.skel .av{width:52px;height:52px;border-radius:50%;flex:none}
+.skel .ln{height:12px;border-radius:6px;margin:6px 0}
+.shim{background:linear-gradient(90deg,#D8CEFF 25%,#F4F0FF 50%,#D8CEFF 75%);background-size:200% 100%;animation:shim 1.3s linear infinite}
+@keyframes shim{to{background-position:-200% 0}}
+.burger{width:64px;height:64px;border:2px solid var(--line);border-radius:16px;background:var(--paper);display:grid;place-items:center;cursor:pointer}
+.burger span{display:block;width:30px;height:3px;background:var(--ink);border-radius:2px;transition:transform .35s, opacity .2s;margin:3px 0}
+.burger.x span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+.burger.x span:nth-child(2){opacity:0}
+.burger.x span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+/* bg */
+.blobs{position:absolute;inset:0;filter:blur(28px);background:var(--bg)}
+.blobs i{position:absolute;width:140px;height:140px;border-radius:50%;animation:blob 9s ease-in-out infinite alternate}
+.blobs i:nth-child(1){background:var(--pink);left:8%;top:10%}
+.blobs i:nth-child(2){background:var(--blue);right:6%;top:20%;animation-delay:-3s}
+.blobs i:nth-child(3){background:var(--lime);left:35%;bottom:-10%;animation-delay:-6s}
+@keyframes blob{50%{transform:translate(40px,30px) scale(1.2)}to{transform:translate(-30px,10px) scale(.9)}}
+.grain{position:absolute;inset:0;background:linear-gradient(135deg,var(--tomato),var(--sun))}
+.grain::after{content:"";position:absolute;inset:0;opacity:.35;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.floaty{position:absolute;inset:0}
+.floaty b{position:absolute;border:2px solid var(--line);animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-18px) rotate(20deg)}}
+/* svg */
+.draw path{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 2.2s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.loader{display:flex;gap:10px}
+.loader i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);animation:jump .9s ease-in-out infinite}
+.loader i:nth-child(1){background:var(--tomato)}
+.loader i:nth-child(2){background:var(--sun);animation-delay:.15s}
+.loader i:nth-child(3){background:var(--blue);animation-delay:.3s}
+@keyframes jump{40%{transform:translateY(-22px)}80%{transform:none}}
+.ring{width:120px;height:120px}
+.ring circle.p{stroke-dasharray:314;stroke-dashoffset:314;animation:ring 1.8s cubic-bezier(.6,0,.2,1) forwards;transform:rotate(-90deg);transform-origin:center}
+@keyframes ring{to{stroke-dashoffset:78}}
+/* page */
+.cursor-area{position:absolute;inset:0;cursor:none;display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.cdot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--tomato);pointer-events:none;translate:-50% -50%}
+.cring{position:absolute;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);pointer-events:none;translate:-50% -50%;transition:width .2s,height .2s}
+.wipe{position:absolute;inset:0;background:var(--blue);transform:translateY(100%);z-index:2}
+.wipe.go{animation:wipe 1.3s cubic-bezier(.7,0,.2,1) both}
+@keyframes wipe{0%{transform:translateY(100%)}45%,55%{transform:translateY(0)}100%{transform:translateY(-100%)}}
+.flipcard{width:150px;height:110px;perspective:600px;cursor:pointer}
+.flipcard .in{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flipcard:hover .in{transform:rotateY(180deg)}
+.flipcard .f,.flipcard .b{position:absolute;inset:0;border:2px solid var(--line);border-radius:16px;display:grid;place-items:center;font-family:var(--display);font-weight:700;backface-visibility:hidden}
+.flipcard .f{background:var(--sun)}
+.flipcard .b{background:var(--ink);color:#fff;transform:rotateY(180deg)}
+.cube-wrap{perspective:500px}
+.cube{width:80px;height:80px;position:relative;transform-style:preserve-3d;animation:cube 8s linear infinite}
+.cube i{position:absolute;inset:0;border:2px solid var(--line);opacity:.92}
+.cube i:nth-child(1){transform:translateZ(40px);background:var(--tomato)}
+.cube i:nth-child(2){transform:rotateY(180deg) translateZ(40px);background:var(--blue)}
+.cube i:nth-child(3){transform:rotateY(90deg) translateZ(40px);background:var(--lime)}
+.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(40px);background:var(--pink)}
+.cube i:nth-child(5){transform:rotateX(90deg) translateZ(40px);background:var(--sun)}
+.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(40px);background:#fff}
+@keyframes cube{to{transform:rotateX(360deg) rotateY(720deg)}}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar"></div>
+<header class="nav"><div class="wrap nav-in">
+  <a class="logo" href="#top"><i>✦</i>Poliakova_design_guide</a>
+  <nav class="tabs" aria-label="Разделы">
+    <a href="#resources" data-sec="resources">Ресурсы</a>
+    <a href="#animations" data-sec="animations">Анимации</a>
+    <a href="#checklists" data-sec="checklists">Чеклисты</a>
+    <a href="#prompts" data-sec="prompts">Промпты</a>
+  </nav>
+</div></header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Полезности, ускорители и помощники</div>
+      <h1>Шпаргалка<span>дизайнера</span></h1>
+      <p class="lead">Сервисы, живые анимации с промптами для Claude и чеклисты от идеи до кейса в портфолио. Без воды: кликай, копируй, делай.</p>
+      <div class="hero-stats" id="stats"></div>
+    </div>
+  </section>
+
+  <section class="block" id="resources">
+    <div class="sec-head">
+      <div><span class="tag">01 / Ресурсы</span><h2 style="margin-top:14px">Полка <em>сервисов</em></h2><p>Проверенные инструменты по задачам: от текстов и картинок до стоков, шрифтов и хостинга.</p></div>
+      <input class="search" id="resSearch" type="search" placeholder="Найти: видео, шрифты, иконки…" aria-label="Поиск по ресурсам">
+    </div>
+    <div class="chips" id="resChips"></div>
+    <div id="resList"></div>
+  </section>
+
+  <section class="block" id="animations">
+    <div class="sec-head">
+      <div><span class="tag">02 / Анимации</span><h2 style="margin-top:14px">Библиотека <em>эффектов</em></h2><p>Каждая карточка — живое демо. Посмотри, как работает, скопируй промпт и вставь в Claude вместе со своим HTML.</p></div>
+    </div>
+    <div class="chips" id="animChips"></div>
+    <div class="anim-grid" id="animGrid"></div>
+  </section>
+
+  <section class="block" id="checklists">
+    <div class="sec-head">
+      <div><span class="tag">03 / Чеклисты</span><h2 style="margin-top:14px">Ничего <em>не забыть</em></h2><p>Отмечай пункты — прогресс запомнится в этом браузере. Кнопка «Сбросить» очищает список для нового проекта.</p></div>
+    </div>
+    <div class="cl-grid" id="clGrid"></div>
+  </section>
+
+  <section class="block" id="prompts">
+    <div class="sec-head">
+      <div><span class="tag">04 / Промпты</span><h2 style="margin-top:14px">Полезные <em>промпты</em></h2><p>Готовые запросы для Claude на каждый этап: от структуры до аудита и текста кейса. Замени поля в скобках на свои.</p></div>
+    </div>
+    <div class="cl-grid" id="prGrid"></div>
+  </section>
+
+  <footer>
+    <span>Poliakova_design_guide · собрано для дизайнеров, которые делают сайты с AI</span>
+    <span>Ссылки ведут на сайты сервисов, цены и условия уточняй там</span>
+  </footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ================= RESOURCES ================= */
+const RES = [
+ {cat:"AI-ассистенты", color:"var(--blue)", items:[
+  ["Claude","https://claude.ai/","Структура, тексты и готовый HTML-код сайта"],
+  ["ChatGPT","https://chatgpt.com/","Идеи, тексты, разбор скриншотов"],
+  ["Gemini","https://gemini.google.com/","Ассистент Google с поиском"],
+  ["Google AI Studio","https://aistudio.google.com/","Бесплатные модели Gemini в браузере"],
+  ["Perplexity","https://www.perplexity.ai/","Ресерч с ответами и источниками"],
+  ["Cursor","https://cursor.com/","Редактор кода с AI: правки сайта по промпту"],
+  ["Codex","https://openai.com/codex/","AI-агент OpenAI для написания и правки кода"]]},
+ {cat:"Сайты и UI с AI", color:"var(--tomato)", items:[
+  ["Lovable","https://lovable.dev/","Сайт или веб-приложение по описанию"],
+  ["Stitch","https://stitch.withgoogle.com/","Экраны интерфейса из текста"],
+  ["Aura Build","https://www.aura.build/","Лендинги с экспортом в HTML и Figma"],
+  ["Relume","https://www.relume.ai/","Карта сайта и вайрфреймы по брифу"],
+  ["v0","https://v0.app/","UI-компоненты и React-код"],
+  ["Figma Make","https://www.figma.com/make/","Прототипы и сайты по промпту прямо в Figma"],
+  ["Framer","https://www.framer.com/","Сайт с AI и публикацией в один клик"],
+  ["Figma","https://figma.com/","Дизайн, прототипы, Community"]]},
+ {cat:"Картинки", color:"var(--pink)", items:[
+  ["Google Flow","https://labs.google/fx/tools/flow","Фото через NanoBanana и видео через Veo"],
+  ["Midjourney","https://midjourney.com/","Художественная генерация и концепты"],
+  ["Magnific","https://www.magnific.com/","Много моделей и апскейл"],
+  ["Ideogram","https://ideogram.ai/","Картинки с читаемым текстом"],
+  ["Recraft","https://www.recraft.ai/","Вектор, иконки и иллюстрации в одном стиле"],
+  ["Leonardo AI","https://leonardo.ai/","Стили, модели, анимация картинок"],
+  ["PhotoRoom","https://www.photoroom.com/","Фон и студийные фото товаров"]]},
+ {cat:"Видео и звук", color:"var(--lime)", items:[
+  ["Weave","https://weave.figma.com/","Цепочки AI-моделей для серий визуалов"],
+  ["Kling","https://kling.ai/","Реалистичное видео из картинки"],
+  ["Higgsfield","https://higgsfield.ai/","Видео с движениями камеры"],
+  ["Runway","https://runway.com/","Генерация и монтаж видео"],
+  ["Pika","https://pika.art/","Быстро оживить картинку"],
+  ["Hailuo","https://hailuoai.video/","Недорогая видеогенерация"],
+  ["Seedance","https://seed.bytedance.com/","Видеомодель ByteDance, плавное движение"],
+  ["HeyGen","https://www.heygen.com/","AI-аватары и говорящие ведущие"],
+  ["Hedra","https://www.hedra.com/","Оживляет персонажей и лица под голос"],
+  ["CapCut","https://www.capcut.com/","Монтаж, субтитры, шаблоны Reels"],
+  ["VN","https://www.vlognow.me/","Бесплатный монтаж без водяного знака"],
+  ["ElevenLabs","https://elevenlabs.io/","Озвучка и клонирование голоса"],
+  ["Suno","https://suno.com/","Музыка для видео по описанию"]]},
+ {cat:"Анимации и компоненты", color:"var(--sun)", items:[
+  ["GSAP","https://gsap.com/","Главная библиотека веб-анимаций и ScrollTrigger"],
+  ["React Bits","https://reactbits.dev/","Анимированные компоненты с кодом"],
+  ["21st.dev","https://21st.dev/community/components","Компоненты от сообщества"],
+  ["Aceternity UI","https://ui.aceternity.com/","Эффектные блоки на Tailwind"],
+  ["HyperUI","https://www.hyperui.dev/","Бесплатные Tailwind-компоненты"],
+  ["Spline","https://spline.design/","3D-сцены прямо на сайт"],
+  ["Jitter","https://jitter.video/","Моушн для интерфейсов"],
+  ["Motion","https://motion.dev/","Анимации для React и JS (бывший Framer Motion)"],
+  ["Magic UI","https://magicui.design/","Анимированные блоки для лендингов"],
+  ["Unicorn Studio","https://www.unicorn.studio/","WebGL-эффекты и живые фоны без кода"],
+  ["LottieFiles","https://lottiefiles.com/","Лёгкие векторные анимации и иконки"],
+  ["Figma Community","https://www.figma.com/community","UI-киты, плагины и шаблоны"]]},
+ {cat:"Вдохновение", color:"var(--pink)", items:[
+  ["Awwwards","https://www.awwwards.com/","Лучшие сайты мира"],
+  ["Land-book","https://land-book.com/","Галерея лендингов"],
+  ["Minimal Gallery","https://minimal.gallery/","Минималистичные сайты"],
+  ["Cosmos","https://www.cosmos.so/","Мудборды"],
+  ["Dribbble","https://dribbble.com/","Шоты дизайнеров"],
+  ["Pinterest","https://pinterest.com/","Визуальный поиск"],
+  ["Behance","https://www.behance.net/","Подробные кейсы и брендинг"],
+  ["Godly","https://godly.website/","Смелые сайты с анимациями, видео-превью"],
+  ["SiteInspire","https://www.siteinspire.com/","Сайты по стилю и индустрии"],
+  ["Mobbin","https://mobbin.com/","Экраны и флоу реальных приложений"],
+  ["Savee","https://savee.it/","Мудборды с эстетикой повыше Pinterest"]]},
+ {cat:"Фото и видео стоки", color:"var(--blue)", items:[
+  ["Unsplash","https://unsplash.com/","Бесплатные фото высокого качества"],
+  ["Pexels","https://pexels.com/","Фото и видео"],
+  ["Pixabay","https://pixabay.com/","Фото, видео, векторы"],
+  ["Kaboompics","https://kaboompics.com/","Лайфстайл и интерьеры"],
+  ["Coverr","https://coverr.co/","Видеофоны для hero"],
+  ["Mixkit","https://mixkit.co/","Видео, музыка и звуки"]]},
+ {cat:"Шрифты, цвет, иконки", color:"var(--tomato)", items:[
+  ["Google Fonts","https://fonts.google.com/","Бесплатные шрифты с кириллицей"],
+  ["Fonts Arena","https://fontsarena.com/","Подборки и пары шрифтов"],
+  ["Coolors","https://coolors.co/","Генератор палитр"],
+  ["CSS Gradient","https://cssgradient.io/","Градиенты с готовым CSS"],
+  ["Noise & Gradient","https://noiseandgradient.com/","Градиенты с зерном"],
+  ["Iconscout","https://iconscout.com/","Иконки, 3D и Lottie"],
+  ["Flaticon","https://flaticon.com/","Огромная база иконок"],
+  ["Shapefest","https://www.shapefest.com/","3D-формы в PNG"]]},
+ {cat:"Запуск и проверка", color:"var(--lime)", items:[
+  ["Netlify","https://netlify.com/","Хостинг: перетащил папку — сайт онлайн"],
+  ["Vercel","https://vercel.com/","Хостинг с деплоем из GitHub"],
+  ["GitHub","https://github.com/","Хранение кода сайта"],
+  ["Cloudinary","https://cloudinary.com/","Хранение фото и видео для сайта"],
+  ["Squoosh","https://squoosh.app/","Сжатие картинок в браузере"],
+  ["TinyPNG","https://tinypng.com/","Быстрое сжатие PNG и JPG"],
+  ["CloudConvert","https://cloudconvert.com/mp4-converter","Сжатие и конвертация видео"],
+  ["PageSpeed Insights","https://pagespeed.web.dev/","Скорость и SEO-оценка сайта"],
+  ["opengraph.xyz","https://opengraph.xyz/","Как ссылка выглядит в соцсетях"],
+  ["Search Console","https://search.google.com/search-console","Индексация в Google"],
+  ["RealFaviconGenerator","https://realfavicongenerator.net/","Фавиконки под все устройства"]]},
+ {cat:"Упаковка кейса", color:"var(--sun)", items:[
+  ["shots.so","https://shots.so/","Красивые мокапы скриншотов"],
+  ["HowdyGo","https://www.howdygo.com/free-tools/scrolling-website-video-generator","Видео со скроллом сайта"],
+  ["GoFullPage","https://gofullpage.com/","Скрин всей страницы в Chrome"],
+  ["OBS Studio","https://obsproject.com/","Качественная запись экрана"],
+  ["Behance","https://www.behance.net/","Портфолио с подробными кейсами"],
+  ["Dribbble","https://dribbble.com/","Шоты и видео-превью проектов"]]}
+];
+const total = RES.reduce((s,g)=>s+g.items.length,0);
+
+/* ================= ANIMATIONS ================= */
+const splitWord = (w,step=.05)=>[...w].map((c,i)=>`<span style="animation-delay:${(i*step).toFixed(2)}s">${c===' '?'&nbsp;':c}</span>`).join('');
+const A = [
+ // ---- Текст
+ {cat:"Текст",name:"Мягкое появление",desc:"Заголовок выплывает снизу и проявляется. Базовый эффект для hero.",replay:1,
+  demo:()=>`<div class="d-title fx-fadeup">Привет, я дизайнер</div>`,
+  prompt:`Сделай для заголовка h1 анимацию появления: старт opacity 0 и сдвиг вниз на 24px, финиш — на месте, 0.8s, кривая cubic-bezier(.2,.7,.2,1). Запускай, когда заголовок попадает в экран (IntersectionObserver, один раз). Учти prefers-reduced-motion.`},
+ {cat:"Текст",name:"Буквы по одной",desc:"Каждая буква вылетает с поворотом и небольшой задержкой.",replay:1,
+  demo:()=>`<div class="d-title fx-split">${splitWord('Смелый дизайн')}</div>`,
+  prompt:`Разбей текст заголовка на отдельные span для каждой буквы через JS (пробелы сохрани). Каждая буква появляется снизу (40px) с поворотом 12° и прозрачностью 0, задержка между буквами 0.05s, длительность 0.6s, лёгкий «пружинящий» easing. Запуск при появлении в экране.`},
+ {cat:"Текст",name:"Живой градиент",desc:"Цвета медленно перетекают внутри букв. Для акцентных слов.",
+  demo:()=>`<div class="d-title fx-grad">креатив</div>`,
+  prompt:`Сделай у слова в заголовке переливающийся градиент внутри букв: background linear-gradient из 3–4 цветов бренда, background-size 300%, background-clip: text, прозрачный цвет текста. Бесконечная анимация background-position за 4s, linear.`},
+ {cat:"Текст",name:"Из размытия в фокус",desc:"Текст проявляется из блюра, буквы собираются ближе.",replay:1,
+  demo:()=>`<div class="d-title fx-blur">Фокус</div>`,
+  prompt:`Анимация заголовка «из размытия»: старт opacity 0, filter blur(14px), letter-spacing 0.3em; финиш — чёткий текст с обычным интервалом. 1.1s ease, запуск при появлении в экране.`},
+ {cat:"Текст",name:"Шторка",desc:"Плашка с текстом раскрывается слева направо.",replay:1,
+  demo:()=>`<div class="d-title fx-clip">Новый кейс</div>`,
+  prompt:`Сделай раскрытие текста шторкой: clip-path от inset(0 100% 0 0) до inset(0 0 0 0), 1s, cubic-bezier(.7,0,.2,1). Запускай при попадании блока в экран.`},
+ {cat:"Текст",name:"Печатная машинка",desc:"Фразы печатаются и стираются по кругу, курсор мигает.",
+  demo:()=>`<div class="fx-type"><span data-type="Дизайнер|Иллюстратор|AI-энтузиаст"></span><i class="cur"></i></div>`,
+  prompt:`Эффект печатной машинки: массив фраз ["Дизайнер","Иллюстратор","AI-энтузиаст"]. Каждая печатается по букве (80ms), держится 1.2s, стирается (40ms на букву), затем следующая по кругу. После текста — мигающий курсор (CSS, 1s steps).`},
+ {cat:"Текст",name:"Смена слов",desc:"Одно слово в фразе прокручивается как барабан.",
+  demo:()=>`<div class="fx-rot">Делаю <span class="win"><span class="list"><span>лендинги</span><span>брендинг</span><span>анимации</span><span>лендинги</span></span></span></div>`,
+  prompt:`Во фразе «Делаю [слово]» слово меняется каждые 2s: слова стоят в колонке внутри окна высотой в одну строку (overflow hidden), колонка сдвигается translateY на одну строку, 0.6s. Последнее слово дублирует первое, чтобы цикл шёл без рывка.`},
+ {cat:"Текст",name:"Счётчик",desc:"Число набегает от нуля. Для цифр «проектов», «клиентов».",replay:1,
+  demo:()=>`<div class="fx-count"><span data-count="120">0</span>+<small>проектов</small></div>`,
+  prompt:`Сделай счётчик: когда блок попадает в экран, число плавно считает от 0 до значения из data-count за 1.6s с замедлением в конце (easeOutCubic через requestAnimationFrame). Цифры моноширинные (font-variant-numeric: tabular-nums), чтобы текст не прыгал.`},
+ // ---- Скролл
+ {cat:"Скролл",name:"Появление при скролле",desc:"Блоки выезжают, когда до них докрутили. Прокрути внутри окна.",hint:"скролль ↓",
+  demo:()=>`<div class="scroller" data-reveal><div class="pad">прокрути вниз</div>${[1,2,3,4,5].map(n=>`<div class="rv">Карточка ${n}</div>`).join('')}<div class="pad"></div></div>`,
+  prompt:`Добавь всем секциям и карточкам класс .reveal: по умолчанию opacity 0, translateY(30px), scale(.96). IntersectionObserver (threshold 0.2) добавляет класс .in — элемент плавно встаёт на место за 0.6s. Без JS контент должен оставаться видимым.`},
+ {cat:"Скролл",name:"Прогресс чтения",desc:"Полоса сверху показывает, сколько страницы прочитано.",hint:"скролль ↓",
+  demo:()=>`<div class="scroller" data-progress><div class="prog"></div><div class="fake-text">${'<i></i>'.repeat(40)}</div></div>`,
+  prompt:`Добавь полосу прогресса чтения высотой 4px, закреплённую сверху экрана. Ширина = scrollY / (высота документа − высота окна) × 100%. Цвет — акцент бренда. Обновляй в requestAnimationFrame.`},
+ {cat:"Скролл",name:"Параллакс слоёв",desc:"Слои едут с разной скоростью и дают глубину.",hint:"скролль ↓",
+  demo:()=>`<div class="scroller" data-parallax><div class="par-wrap"><div class="par">
+    <div class="l" data-k=".15" style="top:10px;height:300px;background:linear-gradient(var(--blue),var(--pink))"></div>
+    <div class="l" data-k=".45" style="top:90px;height:200px;background:var(--sun);clip-path:polygon(0 60%,20% 30%,45% 55%,70% 20%,100% 50%,100% 100%,0 100%)"></div>
+    <div class="l" data-k=".85" style="top:130px;height:200px;background:var(--ink);clip-path:polygon(0 50%,30% 25%,55% 50%,80% 30%,100% 45%,100% 100%,0 100%)"></div>
+  </div></div></div>`,
+  prompt:`Сделай параллакс в hero из 3 слоёв (фон, средний план, передний план). При скролле каждый слой сдвигается по Y со своим коэффициентом: 0.15, 0.45, 0.85 от прокрутки. Используй transform: translate3d и requestAnimationFrame, чтобы не лагало.`},
+ {cat:"Скролл",name:"Бегущая строка",desc:"Бесконечная лента текста. При наведении останавливается.",
+  demo:()=>`<div class="marq"><div class="tr">${'<span>UI/UX ✦ Веб-дизайн ✦ Брендинг ✦ AI ✦</span>'.repeat(4)}</div></div>`,
+  prompt:`Сделай бегущую строку на всю ширину: содержимое продублировано дважды подряд, трек анимируется translateX(0 → −50%) бесконечно, 9s linear. При наведении анимация на паузе (animation-play-state: paused).`},
+ {cat:"Скролл",name:"Стопка карточек",desc:"Карточки прилипают и накрывают друг друга при скролле.",hint:"скролль ↓",
+  demo:()=>`<div class="scroller"><div class="stack-wrap">${[['var(--tomato)','Бриф'],['var(--sun)','Дизайн'],['var(--lime)','Сайт'],['var(--pink)','Кейс']].map((c,i)=>`<div class="stack-card" style="top:${10+i*8}px;background:${c[0]}">${i+1}. ${c[1]}</div>`).join('')}</div></div>`,
+  prompt:`Сделай секцию «этапы работы» стопкой: каждая карточка position: sticky, top у каждой следующей на 8px больше. При скролле карточки прилипают и ложатся друг на друга. У каждой свой цвет фона и тень.`},
+ // ---- Ховер
+ {cat:"Ховер",name:"Магнитная кнопка",desc:"Кнопка тянется за курсором. Наведи мышку.",hint:"наведи",
+  demo:()=>`<button class="magnet" data-magnet>Обсудить проект</button>`,
+  prompt:`Сделай магнитную кнопку CTA: при движении мыши над кнопкой и рядом с ней кнопка смещается к курсору на 30% от расстояния до центра (transform translate). При уходе мыши плавно возвращается, transition 0.25s с лёгкой пружиной.`},
+ {cat:"Ховер",name:"3D-наклон",desc:"Карточка наклоняется вслед за курсором.",hint:"наведи",
+  demo:()=>`<div class="tilt" data-tilt>Кейс 2026</div>`,
+  prompt:`Сделай для карточек проектов 3D-наклон: по положению мыши внутри карточки считай rotateX и rotateY до ±12°, добавь perspective(600px). При уходе мыши карточка возвращается в 0. Transition 0.15s.`},
+ {cat:"Ховер",name:"Подчёркивание",desc:"Линия под ссылкой вырастает слева.",hint:"наведи",
+  demo:()=>`<a class="ulink" href="#animations" onclick="return false">Смотреть работы</a>`,
+  prompt:`Сделай ссылкам подчёркивание, которое вырастает при наведении: background linear-gradient цвета акцента, размер 0 × 4px в левом нижнем углу, при hover — 100% × 4px, transition background-size 0.4s.`},
+ {cat:"Ховер",name:"Заливка кнопки",desc:"Цвет заливает кнопку слева направо.",hint:"наведи",
+  demo:()=>`<button class="fillbtn">Написать мне</button>`,
+  prompt:`Кнопка с заливкой при наведении: псевдоэлемент ::before на всю кнопку с цветом акцента, scaleX(0) с transform-origin right; при hover — scaleX(1) с origin left, 0.45s. Текст при этом становится белым.`},
+ {cat:"Ховер",name:"Прожектор",desc:"Светлое пятно следует за курсором по тёмному блоку.",hint:"води мышкой",
+  demo:()=>`<div class="spot" data-spot><span>Наведи на меня</span></div>`,
+  prompt:`Сделай на тёмной секции «прожектор»: радиальный градиент 160px светлого цвета, центр которого следует за мышью через CSS-переменные --mx и --my (обновляй в mousemove).`},
+ {cat:"Ховер",name:"Зум картинки",desc:"Картинка в рамке мягко увеличивается.",hint:"наведи",
+  demo:()=>`<div class="zoom"><div></div></div>`,
+  prompt:`Для превью проектов: картинка внутри рамки с overflow hidden, при наведении scale(1.25) и лёгкий поворот 4°, 0.6s cubic-bezier(.2,.7,.2,1).`},
+ {cat:"Ховер",name:"Переворот карточки",desc:"На обратной стороне — подробности.",hint:"наведи",
+  demo:()=>`<div class="flipcard"><div class="in"><div class="f">Лицо</div><div class="b">Детали</div></div></div>`,
+  prompt:`Карточка с переворотом: две стороны в одном контейнере, perspective 600px, transform-style preserve-3d, backface-visibility hidden. При наведении карточка поворачивается rotateY(180deg) за 0.7s и показывает обратную сторону с описанием.`},
+ // ---- UI
+ {cat:"UI",name:"Аккордеон FAQ",desc:"Ответ плавно раскрывается, плюс поворачивается в крестик.",hint:"нажми",
+  demo:()=>`<div class="acc" data-acc><button>Сколько стоит сайт? <span class="pl">+</span></button><div class="pn"><div>Зависит от объёма. Лендинг — от одной недели работы.</div></div></div>`,
+  prompt:`Сделай FAQ-аккордеон: по клику ответ раскрывается плавно через grid-template-rows 0fr → 1fr (0.35s), значок + поворачивается на 45°. Одновременно открыт только один вопрос. Кнопка доступна с клавиатуры, aria-expanded обновляется.`},
+ {cat:"UI",name:"Переключатель",desc:"Тумблер с пружинкой.",hint:"нажми",
+  demo:()=>`<div class="sw" role="switch" aria-checked="false" tabindex="0" data-sw></div>`,
+  prompt:`Сделай тумблер (role="switch"): кружок переезжает вправо с пружинящим easing cubic-bezier(.3,1.5,.5,1), фон меняется на акцентный. Работает по клику и по пробелу/Enter, aria-checked обновляется.`},
+ {cat:"UI",name:"Уведомление",desc:"Тост выпрыгивает снизу после отправки формы.",replay:1,
+  demo:()=>`<div class="tst">✓ Заявка отправлена</div>`,
+  prompt:`После отправки формы покажи уведомление в правом нижнем углу: выезжает снизу с небольшим увеличением (0.5s, пружинящий easing), висит 3s и плавно исчезает. role="status" для скринридеров.`},
+ {cat:"UI",name:"Скелетон загрузки",desc:"Пока контент грузится, по заглушкам бежит блик.",
+  demo:()=>`<div class="skel"><div class="av shim"></div><div style="flex:1"><div class="ln shim" style="width:80%"></div><div class="ln shim"></div><div class="ln shim" style="width:55%"></div></div></div>`,
+  prompt:`Сделай скелетон для карточек, пока грузятся картинки: серые плашки на месте аватара и строк, по ним бежит светлый блик (linear-gradient, background-size 200%, анимация background-position 1.3s linear infinite).`},
+ {cat:"UI",name:"Бургер → крестик",desc:"Три полоски превращаются в крестик.",hint:"нажми",
+  demo:()=>`<button class="burger" data-burger aria-label="Меню"><span></span><span></span><span></span></button>`,
+  prompt:`Сделай кнопку мобильного меню: три полоски, по клику верхняя и нижняя поворачиваются на ±45° и сходятся в крестик, средняя исчезает (0.35s). aria-expanded переключается, меню открывается на весь экран.`},
+ // ---- Фоны и 3D
+ {cat:"Фоны и 3D",name:"Цветные пятна",desc:"Размытые пятна медленно плавают. Живой фон для hero.",
+  demo:()=>`<div class="blobs"><i></i><i></i><i></i></div><div class="d-title" style="position:relative">Живой фон</div>`,
+  prompt:`Сделай фон hero из 3 цветных кругов 30–40% ширины, общий filter blur(40px). Каждый круг бесконечно и медленно двигается и меняет масштаб (9s, alternate), у каждого своя задержка. Текст поверх.`},
+ {cat:"Фоны и 3D",name:"Зерно на градиенте",desc:"Шумовая текстура делает градиент «плёночным».",
+  demo:()=>`<div class="grain"></div><div class="d-title" style="position:relative;color:#fff">Текстура</div>`,
+  prompt:`Добавь на градиентный фон текстуру зерна: поверх псевдоэлемент с SVG-шумом (feTurbulence, fractalNoise, baseFrequency 0.9) в data URI, opacity 0.35, mix-blend-mode multiply.`},
+ {cat:"Фоны и 3D",name:"Парящие фигуры",desc:"Геометрия покачивается на фоне.",
+  demo:()=>`<div class="floaty">${[['10%','15%','44px','50%','var(--tomato)',0],['75%','20%','36px','8px','var(--lime)',-1],['30%','65%','30px','50%','var(--blue)',-2],['62%','60%','50px','12px','var(--sun)',-3],['85%','70%','24px','50%','var(--pink)',-4]].map(f=>`<b style="left:${f[0]};top:${f[1]};width:${f[2]};height:${f[2]};border-radius:${f[3]};background:${f[4]};animation-delay:${f[5]}s"></b>`).join('')}</div>`,
+  prompt:`Добавь на фон секции 5–6 простых фигур (круги, скруглённые квадраты) цветов бренда. Каждая покачивается вверх-вниз на 18px с поворотом 20°, 6s ease-in-out бесконечно, с разными задержками. pointer-events: none.`},
+ {cat:"Фоны и 3D",name:"3D-куб",desc:"Кубик из шести граней вращается в пространстве. Чистый CSS.",
+  demo:()=>`<div class="cube-wrap"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>`,
+  prompt:`Сделай вращающийся 3D-куб на чистом CSS: контейнер с perspective 500px, куб с transform-style preserve-3d, 6 граней через rotateX/rotateY и translateZ(половина стороны). Бесконечная анимация rotateX 360° и rotateY 720° за 8s linear.`},
+ // ---- SVG и курсор
+ {cat:"SVG и курсор",name:"Рисование линии",desc:"Подпись или иконка рисуется, как от руки.",replay:1,
+  demo:()=>`<svg class="draw" width="240" height="110" viewBox="0 0 240 110" fill="none"><path d="M10 80 C 40 10, 70 10, 80 60 S 120 100, 140 50 S 190 10, 230 70" stroke="var(--tomato)" stroke-width="6" stroke-linecap="round"/></svg>`,
+  prompt:`Сделай так, чтобы SVG-линия (подпись, стрелка, иконка) рисовалась при появлении: получи длину через path.getTotalLength(), поставь stroke-dasharray и stroke-dashoffset равными длине и анимируй dashoffset до 0 за 2.2s.`},
+ {cat:"SVG и курсор",name:"Кольцо прогресса",desc:"Круговая диаграмма заполняется до значения.",replay:1,
+  demo:()=>`<svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--paper)" stroke-width="14"/><circle class="p" cx="60" cy="60" r="50" fill="none" stroke="var(--blue)" stroke-width="14" stroke-linecap="round"/><text x="60" y="68" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="22" fill="var(--ink)">75%</text></svg>`,
+  prompt:`Сделай SVG-кольцо прогресса для блока навыков: окружность r=50, stroke-dasharray = длина окружности (314), dashoffset анимируется от 314 до значения процента за 1.8s. Старт с 12 часов (rotate −90°), процент в центре.`},
+ {cat:"SVG и курсор",name:"Прыгающий лоадер",desc:"Три точки подпрыгивают по очереди.",
+  demo:()=>`<div class="loader"><i></i><i></i><i></i></div>`,
+  prompt:`Сделай лоадер из трёх цветных кружков: каждый подпрыгивает на 22px, 0.9s ease-in-out бесконечно, задержки 0 / 0.15 / 0.3s.`},
+ {cat:"SVG и курсор",name:"Кастомный курсор",desc:"Точка и кольцо с отставанием. Поводи мышкой внутри.",hint:"води мышкой",
+  demo:()=>`<div class="cursor-area" data-cursor>поводи здесь<div class="cring"></div><div class="cdot"></div></div>`,
+  prompt:`Сделай кастомный курсор: маленькая точка следует за мышью мгновенно, кольцо 40px догоняет с отставанием (линейная интерполяция 0.15 в requestAnimationFrame). Над ссылками и кнопками кольцо увеличивается до 64px. На тач-устройствах не показывай.`},
+ {cat:"SVG и курсор",name:"Переход между страницами",desc:"Цветная шторка закрывает экран и уезжает.",replay:1,
+  demo:()=>`<div class="d-title">Страница 2</div><div class="wipe go"></div>`,
+  prompt:`Сделай переход между страницами: при клике на внутреннюю ссылку снизу выезжает цветная шторка на весь экран (0.6s), затем происходит переход, а на новой странице шторка уезжает вверх. Используй View Transitions API, если доступен, иначе CSS-анимацию.`}
+];
+
+/* ================= CHECKLISTS ================= */
+const CL = [
+ {id:"brief",title:"Перед стартом проекта",color:"var(--blue)",items:[
+  ["Одной фразой понятно, для кого сайт и что должен сделать посетитель",""],
+  ["Собран мудборд из 5–10 референсов","Awwwards, Land-book, Cosmos"],
+  ["Есть структура блоков сверху вниз","Попроси Claude предложить структуру по брифу"],
+  ["Тексты написаны до дизайна","Реальные тексты, не заглушки"],
+  ["Выбраны 2 шрифта с кириллицей и палитра из 4–6 цветов",""],
+  ["Решено, где нужна анимация, а где нет","1–2 ярких момента лучше, чем эффекты везде"]]},
+ {id:"launch",title:"Перед публикацией сайта",color:"var(--tomato)",items:[
+  ["Сайт открыт на настоящем телефоне, все блоки на месте","c"],
+  ["Проверен в Chrome, Safari и Firefox","c"],
+  ["Форма отправлена тестом, заявка дошла","c"],
+  ["Нет заглушек: Lorem ipsum, TODO, test@…","c"],
+  ["Заполнены title и description страницы","i"],
+  ["Есть картинка превью для соцсетей 1200×630 (og:image)","i"],
+  ["Картинки сжаты, видео не тяжелее 5–8 МБ","i"],
+  ["PageSpeed для мобильной версии — от 80 баллов","i"],
+  ["Подключены свой домен и HTTPS","i"],
+  ["Добавлена фавиконка","n"],
+  ["Подключена аналитика (GA4 или Метрика)","n"],
+  ["Сайт добавлен в Google Search Console","n"]]},
+ {id:"case",title:"Упаковка кейса",color:"var(--lime)",items:[
+  ["Скрин всей страницы","DevTools → Capture full size screenshot или GoFullPage"],
+  ["Видео скролла десктопа","Mac: Cmd+Shift+5 · Windows: Win+Alt+R"],
+  ["Скрин или видео мобильной версии","DevTools → режим устройства или запись с телефона"],
+  ["Видео обрезано до 15–30 сек и начинается с самого эффектного места",""],
+  ["Обложка для Dribbble 1600×1200",""],
+  ["Текст кейса: задача, решение, инструменты, результат","Промпт ниже поможет"],
+  ["Опубликовано в Instagram (Reels или карусель)",""],
+  ["Опубликовано на Dribbble или Behance","Добавь теги и ссылку на живой сайт"]]}
+];
+const AUDIT_PROMPT = `Проверь прикреплённый HTML-файл перед публикацией. Дизайн, цвета, шрифты и тексты не меняй — только техническую часть.
+
+1. Исправь сам:
+— title, meta description, lang, viewport, charset;
+— OG-теги для превью ссылки (og:title, og:description, og:image как TODO);
+— alt у всех картинок, один h1, логичный порядок h2–h3;
+— loading="lazy" и width/height у картинок ниже первого экрана;
+— preconnect и display=swap для шрифтов;
+— внешние ссылки: target="_blank" и rel="noopener noreferrer";
+— заглушки вроде Lorem ipsum и тестовых email.
+
+2. Верни исправленный файл целиком.
+
+3. Дай короткий список того, что сделать вручную, по приоритету: срочно / важно / можно позже.`;
+const CASE_PROMPT = `Напиши текст кейса для [Dribbble / Instagram] по моим данным.
+
+Проект: [название]
+Что это: [лендинг / сайт-портфолио / магазин]
+Для кого: [ниша и аудитория]
+Стиль: [3–4 слова]
+Фишки: [анимации, 3D, видео и т.д.]
+Инструменты: [Claude, Figma, GSAP…]
+
+Для Dribbble: на английском, заголовок до 8 слов, 3 коротких абзаца (задача → решение → результат).
+Для Instagram: на русском и английском, живой тон, первая фраза цепляет, в конце призыв написать в директ. Между абзацами ставь символ ⠀ на отдельной строке, чтобы Instagram не склеил текст.`;
+
+/* ================= RENDER ================= */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store = {get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
+async function copy(text){
+  try{await navigator.clipboard.writeText(text);toast('Промпт скопирован')}
+  catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Промпт скопирован')}catch(_){toast('Выдели текст и скопируй вручную')}ta.remove()}
+}
+
+$('#stats').innerHTML = `<span class="stat">${total} ресурсов</span><span class="stat">${A.length} анимаций</span><span class="stat">${CL.length} чеклиста</span>`;
+addEventListener('scroll',()=>{const h=document.documentElement;$('#topbar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
+
+/* resources */
+let resCat='Все', resQ='';
+$('#resChips').innerHTML = ['Все',...RES.map(g=>g.cat)].map(c=>`<button class="chip" aria-pressed="${c==='Все'}" data-c="${c}">${c}</button>`).join('');
+$('#resChips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;resCat=b.dataset.c;$$('#resChips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));drawRes()});
+$('#resSearch').addEventListener('input',e=>{resQ=e.target.value.trim().toLowerCase();drawRes()});
+function drawRes(){
+  const html = RES.filter(g=>resCat==='Все'||g.cat===resCat).map(g=>{
+    const items=g.items.filter(([n,,d])=>!resQ||(n+' '+d+' '+g.cat).toLowerCase().includes(resQ));
+    if(!items.length) return '';
+    return `<div class="res-group"><h3><span class="dot" style="background:${g.color}"></span>${g.cat}</h3><div class="res-grid">${
+      items.map(([n,u,d])=>`<a class="res" href="${u}" target="_blank" rel="noopener noreferrer"><span class="top"><strong>${esc(n)}</strong><span class="arr">↗</span></span><span class="d">${esc(d)}</span></a>`).join('')}</div></div>`}).join('');
+  $('#resList').innerHTML = html || `<div class="empty">Ничего не нашлось. Попробуй другое слово: «видео», «шрифты», «хостинг».</div>`;
+}
+drawRes();
+
+/* animations */
+const cats=['Все',...new Set(A.map(a=>a.cat))];
+$('#animChips').innerHTML = cats.map(c=>`<button class="chip" aria-pressed="${c==='Все'}" data-c="${c}">${c}${c==='Все'?'':' · '+A.filter(a=>a.cat===c).length}</button>`).join('');
+$('#animGrid').innerHTML = A.map((a,i)=>`<article class="card" data-cat="${a.cat}" data-i="${i}">
+  <div class="stage">${a.hint?`<span class="hint">${a.hint}</span>`:''}${a.replay?`<button class="replay" data-replay aria-label="Повторить анимацию">↻ ещё раз</button>`:''}<div class="demo" style="display:contents">${a.demo()}</div></div>
+  <div class="card-body"><h3>${a.name}</h3><p>${a.desc}</p>
+    <div class="prompt" tabindex="0" aria-label="Промпт">${esc(a.prompt)}</div>
+    <div class="row"><button class="btn pri" data-copy="${i}">Скопировать промпт</button></div></div></article>`).join('');
+$('#animChips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;$$('#animChips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));$$('#animGrid .card').forEach(c=>c.hidden=!(b.dataset.c==='Все'||c.dataset.cat===b.dataset.c))});
+$('#animGrid').addEventListener('click',e=>{
+  const c=e.target.closest('[data-copy]'); if(c) return copy(A[+c.dataset.copy].prompt);
+  const r=e.target.closest('[data-replay]'); if(r){const card=r.closest('.card');const a=A[+card.dataset.i];$('.demo',card).innerHTML=a.demo();initCard(card);}
+});
+
+/* interactive demos */
+function initCard(card){
+  // typewriter
+  $$('[data-type]',card).forEach(el=>{
+    const words=el.dataset.type.split('|');let w=0,i=0,del=false;
+    clearTimeout(el._t);
+    const tick=()=>{const cur=words[w];el.textContent=cur.slice(0,i);
+      if(!del&&i<cur.length){i++;el._t=setTimeout(tick,85)}
+      else if(!del){del=true;el._t=setTimeout(tick,1300)}
+      else if(i>0){i--;el._t=setTimeout(tick,40)}
+      else{del=false;w=(w+1)%words.length;el._t=setTimeout(tick,300)}};
+    tick();
+  });
+  // counter
+  $$('[data-count]',card).forEach(el=>{const to=+el.dataset.count,t0=performance.now(),d=reduce?1:1600;
+    const f=t=>{const p=Math.min(1,(t-t0)/d);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)});
+  // word rotate
+  $$('.fx-rot .list',card).forEach(l=>{let n=0;const len=l.children.length;clearInterval(l._i);
+    l._i=setInterval(()=>{n++;l.style.transition='transform .6s cubic-bezier(.7,0,.2,1)';l.style.transform=`translateY(${-n*1.3}em)`;
+      if(n===len-1){setTimeout(()=>{l.style.transition='none';l.style.transform='translateY(0)';n=0},650)}},2000)});
+  // svg draw length
+  $$('.draw path',card).forEach(p=>{p.style.setProperty('--len',Math.ceil(p.getTotalLength()))});
+}
+$$('#animGrid .card').forEach(initCard);
+
+// scroll demos (delegated per scroller)
+$$('[data-reveal]').forEach(sc=>{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{root:sc,threshold:.3});
+  $$('.rv',sc).forEach(x=>io.observe(x));
+});
+$$('[data-progress]').forEach(sc=>sc.addEventListener('scroll',()=>{$('.prog',sc).style.width=(sc.scrollTop/(sc.scrollHeight-sc.clientHeight)*100)+'%'},{passive:true}));
+$$('[data-parallax]').forEach(sc=>{const ls=$$('.l',sc);let raf=0;
+  sc.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>ls.forEach(l=>l.style.transform=`translate3d(0,${-sc.scrollTop*l.dataset.k*.35}px,0)`))},{passive:true})});
+
+// hover demos (delegated on document so replays keep working)
+document.addEventListener('pointermove',e=>{
+  const m=e.target.closest?.('[data-magnet]');
+  $$('[data-magnet]').forEach(b=>{if(b!==m)b.style.transform=''});
+  if(m){const r=m.getBoundingClientRect();m.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.3}px,${(e.clientY-r.top-r.height/2)*.3}px)`}
+  const t=e.target.closest?.('[data-tilt]');
+  $$('[data-tilt]').forEach(x=>{if(x!==t)x.style.transform=''});
+  if(t){const r=t.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;t.style.transform=`perspective(600px) rotateX(${-y*24}deg) rotateY(${x*24}deg)`}
+  const s=e.target.closest?.('[data-spot]');
+  if(s){const r=s.getBoundingClientRect();s.style.setProperty('--mx',(e.clientX-r.left)+'px');s.style.setProperty('--my',(e.clientY-r.top)+'px')}
+},{passive:true});
+document.addEventListener('pointerleave',()=>{$$('[data-magnet],[data-tilt]').forEach(x=>x.style.transform='')});
+
+// click demos
+document.addEventListener('click',e=>{
+  const acc=e.target.closest('[data-acc] button'); if(acc){const a=acc.parentElement;a.classList.toggle('open');acc.setAttribute('aria-expanded',a.classList.contains('open'))}
+  const sw=e.target.closest('[data-sw]'); if(sw){sw.classList.toggle('on');sw.setAttribute('aria-checked',sw.classList.contains('on'))}
+  const bg=e.target.closest('[data-burger]'); if(bg){bg.classList.toggle('x');bg.setAttribute('aria-expanded',bg.classList.contains('x'))}
+});
+document.addEventListener('keydown',e=>{const sw=e.target.closest?.('[data-sw]');if(sw&&(e.key===' '||e.key==='Enter')){e.preventDefault();sw.click()}});
+
+// custom cursor demo
+$$('[data-cursor]').forEach(area=>{
+  const dot=$('.cdot',area),ring=$('.cring',area);let tx=area.clientWidth/2,ty=area.clientHeight/2,rx=tx,ry=ty;
+  dot.style.left=ring.style.left=tx+'px';dot.style.top=ring.style.top=ty+'px';
+  area.addEventListener('pointermove',e=>{const r=area.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;dot.style.left=tx+'px';dot.style.top=ty+'px'});
+  (function loop(){rx+=(tx-rx)*.15;ry+=(ty-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+});
+
+/* checklists */
+const lvlName={c:'срочно',i:'важно',n:'можно позже'};
+$('#clGrid').innerHTML = CL.map(c=>`<div class="cl" data-cl="${c.id}">
+  <div class="cl-head"><h3><span class="dot" style="background:${c.color};margin-right:8px"></span>${c.title}</h3><span class="count"></span></div>
+  <div class="meter"><i></i></div>
+  ${c.items.map(([t,s],i)=>{const lvl=lvlName[s];return `<label class="item"><input type="checkbox" id="${c.id}-${i}"><span><span class="t">${esc(t)}</span>${lvl?`<span class="lvl ${s}">${lvl}</span>`:''}${!lvl&&s?`<span class="s">${esc(s)}</span>`:''}</span></label>`}).join('')}
+  <div class="row" style="margin-top:12px"><button class="btn" data-reset="${c.id}">Сбросить</button></div>
+</div>`).join('');
+
+const PROMPTS=[
+ {t:"Тех-аудит сайта",c:"var(--tomato)",d:"Вставь в Claude и прикрепи HTML-файл сайта. Получишь исправленный файл и список ручных задач.",p:AUDIT_PROMPT},
+ {t:"Текст кейса",c:"var(--pink)",d:"Заполни поля в скобках — Claude напишет подпись для Dribbble или Instagram.",p:CASE_PROMPT},
+ {t:"Структура лендинга",c:"var(--blue)",d:"Когда есть только идея. Claude предложит блоки сайта и что в каждом написать.",p:`Ты — продуктовый дизайнер и копирайтер. Помоги собрать структуру лендинга.
+
+Что за проект: [описание в 2–3 предложениях]
+Для кого: [аудитория]
+Главное действие на сайте: [заявка / покупка / запись]
+
+Предложи 6–9 блоков сверху вниз. Для каждого блока:
+— зачем он нужен посетителю;
+— заголовок до 7 слов;
+— 1–2 предложения текста;
+— идея для визуала или анимации.
+
+В конце — 3 варианта текста для главной кнопки.`},
+ {t:"Сайт из структуры",c:"var(--lime)",d:"Следующий шаг после структуры: Claude соберёт первую версию сайта одним файлом.",p:`Сверстай лендинг одним HTML-файлом по структуре ниже.
+
+Стиль: [3–4 слова, например: светлый, смелая типографика, розовый акцент]
+Шрифты: [из Google Fonts, с кириллицей]
+Цвета: [3–5 HEX]
+Референсы: [ссылки или описание]
+
+Требования:
+— адаптив под телефон;
+— плавные анимации появления блоков при скролле;
+— реальные тексты из структуры, без Lorem ipsum;
+— картинки пока заглушками с подписью, что там будет.
+
+Структура:
+[вставь структуру]`}
+];
+$('#stats').insertAdjacentHTML('beforeend',`<span class="stat">${PROMPTS.length} промпта</span>`);
+$('#prGrid').innerHTML=PROMPTS.map((x,i)=>`<div class="cl"><div class="cl-head"><h3><span class="dot" style="background:${x.c};margin-right:8px"></span>${x.t}</h3></div>
+  <p style="margin:0 0 10px;color:var(--muted);font-size:14px">${x.d}</p>
+  <div class="prompt big-prompt" tabindex="0">${esc(x.p)}</div>
+  <div class="row" style="margin-top:12px"><button class="btn pri" data-pr="${i}">Скопировать промпт</button></div></div>`).join('');
+function syncCl(box){const all=$$('input',box),on=all.filter(x=>x.checked).length;$('.count',box).textContent=`${on} / ${all.length}`;$('.meter i',box).style.width=(on/all.length*100)+'%';$('.meter i',box).style.background=on===all.length?'var(--lime)':'var(--tomato)'}
+$$('[data-cl]').forEach(box=>{const saved=store.get('pdg-'+box.dataset.cl)||[];$$('input',box).forEach((x,i)=>x.checked=!!saved[i]);syncCl(box);
+  box.addEventListener('change',()=>{store.set('pdg-'+box.dataset.cl,$$('input',box).map(x=>x.checked));syncCl(box)})});
+document.addEventListener('click',e=>{
+  const r=e.target.closest('[data-reset]'); if(r){const box=$(`[data-cl="${r.dataset.reset}"]`);$$('input',box).forEach(x=>x.checked=false);store.set('pdg-'+r.dataset.reset,[]);syncCl(box);toast('Список очищен')}
+  const pr=e.target.closest('[data-pr]'); if(pr) copy(PROMPTS[+pr.dataset.pr].p);
+});
+
+/* nav highlight */
+const secs=['resources','animations','checklists','prompts'].map(id=>document.getElementById(id));
+const navIo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$('.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.sec===e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>navIo.observe(s));
+</script>
+</body>
+</html>
