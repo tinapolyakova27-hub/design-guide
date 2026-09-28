@@ -134,9 +134,24 @@ section.block{padding-block:48px}
 .toast.show{opacity:1;translate:-50% 0}
 footer{padding-block:32px 0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px;border-top:1px solid var(--hair);margin-top:24px}
 
+.nav-in{position:relative}
+.burger-btn{display:none;width:44px;height:44px;border:0;border-radius:50%;background:var(--ink);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
+.burger-btn span{display:block;width:18px;height:2px;border-radius:2px;background:#fff;transition:transform .3s,opacity .2s}
+.burger-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (max-width:720px){
+  .nav-in{flex-wrap:nowrap;padding:6px 6px 6px 18px}
+  .logo{font-size:14px}
+  .logo i{font-size:15px}
+  .burger-btn{display:flex}
+  .tabs{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;padding:8px;background:var(--paper);border:1px solid var(--hair);border-radius:24px;box-shadow:0 16px 40px rgba(17,17,17,.12)}
+  .tabs.open{display:flex}
+  .tabs a,.tabs a:not(.cta){padding:14px 16px;font-size:17px;border-radius:16px}
+  .tabs a:hover{background:var(--soft)}
+}
 @media (max-width:860px){
   .hero{padding-block:36px 16px}
-  .tabs a:not(.cta){padding:8px 10px;font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -278,12 +293,13 @@ footer{padding-block:32px 0;display:flex;justify-content:space-between;gap:16px;
 <div class="topbar" id="topbar"></div>
 <header class="nav"><div class="wrap nav-in">
   <a class="logo" href="#top"><i>✦</i>Poliakova_design_guide</a>
-  <nav class="tabs" aria-label="Разделы">
+  <nav class="tabs" id="mainTabs" aria-label="Разделы">
     <a href="#resources" data-sec="resources">Ресурсы</a>
     <a href="#animations" data-sec="animations">Анимации</a>
     <a href="#checklists" data-sec="checklists">Чеклисты</a>
     <a href="#prompts" data-sec="prompts">Промпты</a>
   </nav>
+  <button class="burger-btn" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainTabs"><span></span><span></span><span></span></button>
 </div></header>
 
 <main class="wrap" id="top">
@@ -779,6 +795,12 @@ document.addEventListener('click',e=>{
 const secs=['resources','animations','checklists','prompts'].map(id=>document.getElementById(id));
 const navIo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$('.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.sec===e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
 secs.forEach(s=>navIo.observe(s));
+const bb=$('#burgerBtn'),tb=$('#mainTabs');
+const setMenu=o=>{tb.classList.toggle('open',o);bb.setAttribute('aria-expanded',o);bb.setAttribute('aria-label',o?'Закрыть меню':'Открыть меню')};
+bb.addEventListener('click',e=>{e.stopPropagation();setMenu(!tb.classList.contains('open'))});
+tb.addEventListener('click',e=>{if(e.target.closest('a'))setMenu(false)});
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-in'))setMenu(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
 </script>
 </body>
 </html>
